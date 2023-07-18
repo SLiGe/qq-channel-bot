@@ -5,7 +5,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -36,7 +35,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         pipeline.addLast(
                 new HttpClientCodec(),
                 new HttpObjectAggregator(1024 * 1024 * 10),
-                WebSocketClientCompressionHandler.INSTANCE,
+                CustomWebSocketClientCompressionHandler.INSTANCE,
                 webSocketClientHandler
         );
         //pipeline.addLast(new HeartBeatServerHandler());

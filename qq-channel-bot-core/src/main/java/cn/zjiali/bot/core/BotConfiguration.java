@@ -14,9 +14,6 @@ public class BotConfiguration {
         return "Bot " + this.appId + "." + this.token;
     }
 
-    public BotConfiguration() {
-    }
-
     public BotConfiguration(String appId, String token) {
         this.appId = appId;
         this.token = token;

@@ -1,4 +1,4 @@
-package cn.zjiali.bot.core.event;
+package cn.zjiali.bot.core.event.model;
 
 /**
  * @author zJiaLi

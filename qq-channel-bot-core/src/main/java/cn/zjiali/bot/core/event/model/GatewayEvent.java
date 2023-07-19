@@ -1,4 +1,4 @@
-package cn.zjiali.bot.core.event;
+package cn.zjiali.bot.core.event.model;
 
 /**
  * @author zJiaLi
@@ -6,10 +6,24 @@ package cn.zjiali.bot.core.event;
  */
 public class GatewayEvent<T> {
 
+    /**
+     * 操作代码
+     *
+     * @see cn.zjiali.bot.core.constants.OpCode
+     */
     private int op;
-    private T d;
+    /**
+     * 下行消息都会有一个序列号，标识消息的唯一性，客户端需要再发送心跳的时候，携带客户端收到的最新的s
+     */
     private int s;
+    /**
+     * 事件类型
+     */
     private String t;
+    /**
+     * 事件内容
+     */
+    private T d;
 
     public int getOp() {
         return op;

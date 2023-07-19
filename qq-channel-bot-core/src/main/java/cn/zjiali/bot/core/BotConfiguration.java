@@ -10,6 +10,7 @@ public class BotConfiguration {
 
     private String token;
 
+
     public String authorization() {
         return "Bot " + this.appId + "." + this.token;
     }
@@ -34,4 +35,5 @@ public class BotConfiguration {
     public void setToken(String token) {
         this.token = token;
     }
+
 }

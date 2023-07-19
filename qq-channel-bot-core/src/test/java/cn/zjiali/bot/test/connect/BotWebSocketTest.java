@@ -1,13 +1,16 @@
 package cn.zjiali.bot.test.connect;
 
+import cn.zjiali.bot.core.Bot;
 import cn.zjiali.bot.core.BotConfiguration;
-import cn.zjiali.bot.core.WebSocketClient;
-import cn.zjiali.bot.core.WebSocketUrlProvider;
+import cn.zjiali.bot.core.enums.EventType;
+import cn.zjiali.bot.core.websocket.WebSocketClient;
+import cn.zjiali.bot.core.websocket.WebSocketUrlProvider;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * @author zJiaLi
@@ -27,9 +30,10 @@ class BotWebSocketTest {
         logger.info("gatewayUrl :{}", gatewayUrl);
         assert qqRobotAppId != null;
         BotConfiguration botConfiguration = new BotConfiguration(qqRobotAppId, qqRobotToken);
-        WebSocketUrlProvider webSocketUrlProvider = new WebSocketUrlProvider(gatewayUrl, botConfiguration);
-        WebSocketClient webSocketClient = new WebSocketClient(webSocketUrlProvider);
-        webSocketClient.connect();
+        new Bot(gatewayUrl, botConfiguration, List.of(EventType.GUILDS, EventType.GUILDS)).start();
+//        WebSocketUrlProvider webSocketUrlProvider = new WebSocketUrlProvider(gatewayUrl, botConfiguration);
+//        WebSocketClient webSocketClient = new WebSocketClient(webSocketUrlProvider, botConfiguration);
+//        webSocketClient.connect();
         Thread.currentThread().join();
     }
 }

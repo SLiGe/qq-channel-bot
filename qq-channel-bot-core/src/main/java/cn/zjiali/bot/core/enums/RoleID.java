@@ -1,4 +1,4 @@
-package cn.zjiali.bot.core.constants;
+package cn.zjiali.bot.core.enums;
 
 /**
  * @author zJiaLi

@@ -1,11 +1,10 @@
 package cn.zjiali.bot.core.websocket.handler;
 
 import cn.zjiali.bot.core.BotConfiguration;
-import cn.zjiali.bot.core.enums.EventType;
 import cn.zjiali.bot.core.enums.OpCode;
 import cn.zjiali.bot.core.enums.SubEventType;
+import cn.zjiali.bot.core.event.handler.IdentifyEventHandler;
 import cn.zjiali.bot.core.event.model.GatewayEvent;
-import cn.zjiali.bot.core.event.model.IdentifyEvent;
 import cn.zjiali.bot.core.util.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.channel.Channel;
@@ -26,8 +25,8 @@ import java.util.Objects;
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
     private final WebSocketClientHandshaker handshaker;
     private ChannelPromise handshakeFuture;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final BotConfiguration botConfiguration;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public WebSocketClientHandler(WebSocketClientHandshaker handshaker, BotConfiguration botConfiguration) {
         this.handshaker = handshaker;
@@ -64,30 +63,28 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
     private void handleGatewayEvent(String gateEventJson, Channel channel) throws IOException {
         JsonNode jsonNode = JsonUtil.parseJson(gateEventJson);
-        JsonNode sNode = jsonNode.findValue("s");
+        JsonNode sNode = jsonNode.findValue(GatewayEvent.P_S);
         if (Objects.nonNull(sNode)) {
             int s = sNode.asInt();
             HeartbeatInfo.s.set(s);
         }
-        JsonNode opNode = jsonNode.findValue("op");
+        JsonNode opNode = jsonNode.findValue(GatewayEvent.P_OP);
         int opcode = opNode.asInt();
         if (OpCode.HELLO.getCode() == opcode) {
             //鉴权连接
-            IdentifyEvent identifyEvent = new IdentifyEvent();
-            identifyEvent.setToken(botConfiguration.authorization());
-            identifyEvent.setIntents(EventType.PUBLIC_GUILD_MESSAGES.getFlag());
-            GatewayEvent<IdentifyEvent> gatewayEvent = new GatewayEvent<>();
-            gatewayEvent.setD(identifyEvent);
-            gatewayEvent.setOp(OpCode.IDENTIFY.getCode());
-            channel.writeAndFlush(new TextWebSocketFrame(JsonUtil.toJson(gatewayEvent)));
+            new IdentifyEventHandler(botConfiguration).handle(channel);
         } else if (OpCode.HEARTBEAT_ACK.getCode() == opcode) {
-            logger.debug("heartbeat ack/...");
+            logger.debug("heartbeat ack...");
         } else if (OpCode.DISPATCH.getCode() == opcode) {
-            JsonNode tNode = jsonNode.findValue("t");
+            JsonNode tNode = jsonNode.findValue(GatewayEvent.P_T);
             String t = tNode.asText();
             SubEventType subEventType = SubEventType.find(t);
-            String d = jsonNode.get("d").toString();
-            Object eventObj = JsonUtil.fromJson(d, subEventType.getDataClass());
+            String d = jsonNode.get(GatewayEvent.P_D).toString();
+            Object eventObj = null;
+            if (subEventType != null) {
+                eventObj = JsonUtil.fromJson(d, subEventType.getDataClass());
+                subEventType.getEventConsumer().accept(eventObj);
+            }
         }
 
     }

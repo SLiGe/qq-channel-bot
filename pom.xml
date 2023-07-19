@@ -20,17 +20,13 @@
         <netty.version>4.1.94.Final</netty.version>
         <logback.version>1.4.8</logback.version>
         <junit.version>5.9.3</junit.version>
+        <jackson.version>2.15.2</jackson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-http</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-json</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
             <dependency>
@@ -48,6 +44,16 @@
                 <artifactId>junit-jupiter-api</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

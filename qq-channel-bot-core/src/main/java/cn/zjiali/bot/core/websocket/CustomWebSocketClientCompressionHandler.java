@@ -1,4 +1,4 @@
-package cn.zjiali.bot.core;
+package cn.zjiali.bot.core.websocket;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.compression.ZlibCodecFactory;

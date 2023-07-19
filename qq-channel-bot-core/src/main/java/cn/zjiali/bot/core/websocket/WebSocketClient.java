@@ -1,6 +1,8 @@
-package cn.zjiali.bot.core;
+package cn.zjiali.bot.core.websocket;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.zjiali.bot.core.BotConfiguration;
+import cn.zjiali.bot.core.websocket.handler.WebSocketClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -19,12 +21,14 @@ import java.net.URISyntaxException;
 public class WebSocketClient {
 
     private final WebSocketUrlProvider webSocketUrlProvider;
+    private final BotConfiguration botConfiguration;
     private Channel channel;
     private final NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public WebSocketClient(WebSocketUrlProvider webSocketUrlProvider) {
+    public WebSocketClient(WebSocketUrlProvider webSocketUrlProvider, BotConfiguration botConfiguration) {
         this.webSocketUrlProvider = webSocketUrlProvider;
+        this.botConfiguration = botConfiguration;
     }
 
     public void connect() throws URISyntaxException, InterruptedException {
@@ -33,7 +37,7 @@ public class WebSocketClient {
         URI webSocketURL = new URI(webSocketUrl);
         WebSocketClientHandshaker webSocketClientHandshaker = WebSocketClientHandshakerFactory
                 .newHandshaker(webSocketURL, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
-        WebSocketClientHandler webSocketClientHandler = new WebSocketClientHandler(webSocketClientHandshaker);
+        WebSocketClientHandler webSocketClientHandler = new WebSocketClientHandler(webSocketClientHandshaker, botConfiguration);
         int port = webSocketURL.getPort() == -1 ? 443 : webSocketURL.getPort();
         boolean ssl = "wss".equals(webSocketURL.getScheme());
         String host = webSocketURL.getHost();

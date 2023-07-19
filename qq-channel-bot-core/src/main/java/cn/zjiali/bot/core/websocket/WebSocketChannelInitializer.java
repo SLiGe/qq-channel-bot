@@ -1,10 +1,13 @@
-package cn.zjiali.bot.core;
+package cn.zjiali.bot.core.websocket;
 
+import cn.zjiali.bot.core.websocket.handler.HeartBeatHandler;
+import cn.zjiali.bot.core.websocket.handler.WebSocketClientHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.websocketx.WebSocketFrameAggregator;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -35,9 +38,10 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         pipeline.addLast(
                 new HttpClientCodec(),
                 new HttpObjectAggregator(1024 * 1024 * 10),
+                new WebSocketFrameAggregator(1024 * 1024 * 10),
                 CustomWebSocketClientCompressionHandler.INSTANCE,
                 webSocketClientHandler
         );
-        //pipeline.addLast(new HeartBeatServerHandler());
+        pipeline.addLast(new HeartBeatHandler());
     }
 }

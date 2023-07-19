@@ -1,9 +1,10 @@
-package cn.zjiali.bot.core;
+package cn.zjiali.bot.core.websocket;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.zjiali.bot.core.BotConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

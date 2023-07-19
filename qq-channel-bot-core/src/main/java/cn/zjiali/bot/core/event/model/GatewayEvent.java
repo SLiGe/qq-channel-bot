@@ -7,9 +7,26 @@ package cn.zjiali.bot.core.event.model;
 public class GatewayEvent<T> {
 
     /**
+     * op属性 操作代码
+     */
+    public static final String P_OP = "op";
+    /**
+     * s属性 消息序列号
+     */
+    public static final String P_S = "s";
+    /**
+     * t属性 事件类型
+     */
+    public static final String P_T = "t";
+    /**
+     * d属性 事件内容
+     */
+    public static final String P_D = "d";
+
+    /**
      * 操作代码
      *
-     * @see cn.zjiali.bot.core.constants.OpCode
+     * @see cn.zjiali.bot.core.enums.OpCode
      */
     private int op;
     /**

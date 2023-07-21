@@ -1,5 +1,6 @@
 package cn.zjiali.bot.core.event;
 
+import cn.hutool.core.collection.ConcurrentHashSet;
 import cn.zjiali.bot.core.enums.EventType;
 import cn.zjiali.bot.core.enums.SubEventType;
 
@@ -15,6 +16,8 @@ public class GatewayEventManager {
     private ExceptionHandler exceptionHandler = e -> {
     };
 
+    private final Set<SubEventType> subEventTypeSet = new ConcurrentHashSet<>();
+
     /**
      * 订阅事件
      *
@@ -23,6 +26,12 @@ public class GatewayEventManager {
      * @param <T>       事件类型
      */
     public <T> void subscribe(Class<T> eventType, GatewayEventListener<T> listener) {
+        SubEventType subEventType = filterSubEventType(eventType);
+        if (subEventType == null) {
+            throw new IllegalArgumentException("unknown event type!");
+        } else {
+            this.subEventTypeSet.add(subEventType);
+        }
         // 添加事件监听器到对应类型的监听器列表中
         List<GatewayEventListener<?>> listeners = eventListeners.computeIfAbsent(eventType, k -> new ArrayList<>());
         listeners.add(listener);
@@ -36,6 +45,12 @@ public class GatewayEventManager {
      * @param <T>       事件类型
      */
     public <T> void unsubscribe(Class<T> eventType, GatewayEventListener<T> listener) {
+        SubEventType subEventType = filterSubEventType(eventType);
+        if (subEventType == null) {
+            throw new IllegalArgumentException("unknown event type!");
+        } else {
+            this.subEventTypeSet.remove(subEventType);
+        }
         // 从对应类型的监听器列表中移除事件监听器
         List<GatewayEventListener<?>> listeners = eventListeners.get(eventType);
         if (listeners != null) {
@@ -61,6 +76,19 @@ public class GatewayEventManager {
                 this.exceptionHandler.handleException(e);
             }
         }
+    }
+
+    public boolean inSub(SubEventType subEventType) {
+        return this.subEventTypeSet.contains(subEventType);
+    }
+
+    private SubEventType filterSubEventType(Class<?> dataClass) {
+        for (SubEventType subEventType : SubEventType.values()) {
+            if (subEventType.getDataClass() == dataClass) {
+                return subEventType;
+            }
+        }
+        return null;
     }
 
     public Set<EventType> eventTypeSet() {

@@ -74,20 +74,24 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
                         case HELLO ->
                                 new IdentifyEventHandler(botConfiguration, this.gatewayEventManager.eventTypeSet()).handle(channel);
                         case HEARTBEAT_ACK -> logger.debug("gateway heartbeat ack...");
-                        case DISPATCH -> {
-                            JsonNode tNode = jsonNode.findValue(GatewayEvent.P_T);
-                            String t = tNode.asText();
-                            SubEventType subEventType = SubEventType.find(t);
-                            String d = jsonNode.get(GatewayEvent.P_D).toString();
-                            if (subEventType != null && d != null) {
-                                Class<?> eventClassType = subEventType.getDataClass();
-                                Object eventObj = JsonUtil.fromJson(d, eventClassType);
-                                this.gatewayEventManager.notifyListeners(eventClassType, eventObj);
-                            }
-                        }
+                        case DISPATCH -> doDispatch(jsonNode);
                         default -> logger.warn("unknown opcode: {}", opcode);
                     }
                 });
+    }
+
+    private void doDispatch(JsonNode jsonNode) {
+        JsonNode tNode = jsonNode.findValue(GatewayEvent.P_T);
+        String t = tNode.asText();
+        SubEventType subEventType = SubEventType.find(t);
+        if (this.gatewayEventManager.inSub(subEventType)) {
+            String d = jsonNode.get(GatewayEvent.P_D).toString();
+            if (subEventType != null && d != null) {
+                Class<?> eventClassType = subEventType.getDataClass();
+                Object eventObj = JsonUtil.fromJson(d, eventClassType);
+                this.gatewayEventManager.notifyListeners(eventClassType, eventObj);
+            }
+        }
     }
 
 

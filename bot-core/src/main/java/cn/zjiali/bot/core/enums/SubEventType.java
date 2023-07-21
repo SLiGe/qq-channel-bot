@@ -1,7 +1,7 @@
 package cn.zjiali.bot.core.enums;
 
-import cn.zjiali.bot.model.event.GuildEvent;
-import cn.zjiali.bot.model.event.MessageEvent;
+import cn.zjiali.bot.model.event.guild.GuildEvent;
+import cn.zjiali.bot.model.event.message.MessageEvent;
 import cn.zjiali.bot.model.event.ReadyEvent;
 
 /**

@@ -1,12 +1,8 @@
 package cn.zjiali.bot.core;
 
 import cn.zjiali.bot.core.event.GatewayEventManager;
-import cn.zjiali.bot.core.event.listener.MessageEventListener;
-import cn.zjiali.bot.core.event.listener.ReadyEventListener;
 import cn.zjiali.bot.core.websocket.WebSocketClient;
 import cn.zjiali.bot.core.websocket.WebSocketUrlProvider;
-import cn.zjiali.bot.model.event.MessageEvent;
-import cn.zjiali.bot.model.event.ReadyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

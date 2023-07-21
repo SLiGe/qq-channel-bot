@@ -1,5 +1,5 @@
 
-package cn.zjiali.bot.model.event;
+package cn.zjiali.bot.model.event.channel;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

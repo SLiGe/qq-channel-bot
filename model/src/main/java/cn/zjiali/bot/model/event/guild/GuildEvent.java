@@ -1,4 +1,4 @@
-package cn.zjiali.bot.model.event;
+package cn.zjiali.bot.model.event.guild;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

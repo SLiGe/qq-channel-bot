@@ -2,7 +2,7 @@ package cn.zjiali.bot.core.event.listener;
 
 import cn.zjiali.bot.common.util.JsonUtil;
 import cn.zjiali.bot.core.event.GatewayEventListener;
-import cn.zjiali.bot.model.event.MessageEvent;
+import cn.zjiali.bot.model.event.message.MessageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

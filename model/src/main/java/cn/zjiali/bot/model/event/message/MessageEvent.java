@@ -1,4 +1,4 @@
-package cn.zjiali.bot.model.event;
+package cn.zjiali.bot.model.event.message;
 
 import cn.zjiali.bot.model.message.Message;
 

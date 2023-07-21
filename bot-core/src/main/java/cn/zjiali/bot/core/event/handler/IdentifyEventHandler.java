@@ -9,7 +9,6 @@ import cn.zjiali.bot.model.event.IdentifyEvent;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
-import java.util.List;
 import java.util.Set;
 
 /**

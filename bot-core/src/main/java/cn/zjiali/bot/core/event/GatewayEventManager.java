@@ -12,6 +12,8 @@ import java.util.*;
 public class GatewayEventManager {
 
     private final Map<Class<?>, List<GatewayEventListener<?>>> eventListeners = new HashMap<>();
+    private ExceptionHandler exceptionHandler = e -> {
+    };
 
     /**
      * 订阅事件
@@ -26,12 +28,23 @@ public class GatewayEventManager {
         listeners.add(listener);
     }
 
+    /**
+     * 取消订阅事件
+     *
+     * @param eventType 事件类型
+     * @param listener  监听器
+     * @param <T>       事件类型
+     */
     public <T> void unsubscribe(Class<T> eventType, GatewayEventListener<T> listener) {
         // 从对应类型的监听器列表中移除事件监听器
         List<GatewayEventListener<?>> listeners = eventListeners.get(eventType);
         if (listeners != null) {
             listeners.remove(listener);
         }
+    }
+
+    public void exceptionHandler(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +55,11 @@ public class GatewayEventManager {
         for (GatewayEventListener<?> listener : listeners) {
             GatewayEventListener<T> eventListener = (GatewayEventListener<T>) listener;
             T event = eventType.cast(eventObj);
-            eventListener.onEvent(event);
+            try {
+                eventListener.onEvent(event);
+            } catch (Exception e) {
+                this.exceptionHandler.handleException(e);
+            }
         }
     }
 

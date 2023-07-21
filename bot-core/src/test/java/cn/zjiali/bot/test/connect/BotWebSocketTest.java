@@ -32,6 +32,7 @@ class BotWebSocketTest {
         GatewayEventManager gatewayEventManager = new GatewayEventManager();
         gatewayEventManager.subscribe(ReadyEvent.class, new ReadyEventListener());
         gatewayEventManager.subscribe(MessageEvent.class, new MessageEventListener());
+        gatewayEventManager.exceptionHandler(exception -> logger.error("消息处理异常", exception));
         BotConfiguration botConfiguration = new BotConfiguration(qqRobotAppId, qqRobotToken);
         Bot bot = new Bot(gatewayUrl, botConfiguration, gatewayEventManager);
         BotRunner.run(bot);

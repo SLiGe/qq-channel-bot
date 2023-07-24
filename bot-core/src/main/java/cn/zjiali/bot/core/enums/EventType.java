@@ -10,7 +10,13 @@ public enum EventType {
     /**
      * 频道事件
      */
-    GUILDS(1 << 0, new SubEventType[]{SubEventType.GUILD_CREATE, SubEventType.GUILD_UPDATE, SubEventType.GUILD_DELETE}),
+    GUILDS(1 << 0, new SubEventType[]{SubEventType.GUILD_CREATE, SubEventType.GUILD_UPDATE, SubEventType.GUILD_DELETE, SubEventType.CHANNEL_CREATE, SubEventType.CHANNEL_UPDATE, SubEventType.GUILD_DELETE}),
+
+    GUILD_MEMBERS(1 << 1, new SubEventType[]{SubEventType.GUILD_MEMBER_ADD, SubEventType.GUILD_MEMBER_UPDATE, SubEventType.GUILD_MEMBER_REMOVE}),
+
+    GUILD_MESSAGE_REACTIONS(1 << 10, new SubEventType[]{SubEventType.MESSAGE_REACTION_ADD, SubEventType.MESSAGE_REACTION_REMOVE}),
+
+    DIRECT_MESSAGE(1 << 12, new SubEventType[]{SubEventType.DIRECT_MESSAGE_CREATE, SubEventType.DIRECT_MESSAGE_DELETE}),
 
     /**
      * 消息事件

@@ -1,6 +1,6 @@
 package cn.zjiali.bot.model.event.forum;
 
-import cn.zjiali.bot.model.forum.post.ForumPost;
+import cn.zjiali.bot.model.forum.reply.ForumReply;
 
-public class ForumPostCreateEvent extends ForumPost {
+public class ForumReplyCreateEvent extends ForumReply {
 }

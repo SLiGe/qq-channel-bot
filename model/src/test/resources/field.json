@@ -1,0 +1,6 @@
+[
+  {
+    "className": "ForumAuditResult",
+    "tableHtml": "<table><thead><tr><th>字段名</th> <th>类型</th> <th>描述</th></tr></thead> <tbody><tr><td>guild_id</td> <td>string</td> <td>频道ID</td></tr> <tr><td>channel_id</td> <td>string</td> <td>子频道ID</td></tr> <tr><td>author_id</td> <td>string</td> <td>作者ID</td></tr> <tr><td>thread_id</td> <td>string</td> <td>主题ID</td></tr> <tr><td>post_id</td> <td>string</td> <td>帖子ID</td></tr> <tr><td>reply_id</td> <td>string</td> <td>回复ID</td></tr> <tr><td>type</td> <td>uint32</td> <td><a href=\"#AuditType\">AuditType</a>审核的类型</td></tr> <tr><td>result</td> <td>uint32</td> <td>审核结果. 0:成功 1:失败</td></tr> <tr><td>err_msg</td> <td>string</td> <td>result不为0时错误信息</td></tr></tbody></table>"
+  }
+]

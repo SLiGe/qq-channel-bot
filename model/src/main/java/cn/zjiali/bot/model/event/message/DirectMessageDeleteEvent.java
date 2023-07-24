@@ -6,5 +6,5 @@ package cn.zjiali.bot.model.event.message;
  * @author zJiaLi
  * @since 2023-07-21 15:29
  */
-public class DirectMessageCreateEvent extends MessageEvent {
+public class DirectMessageDeleteEvent extends MessageEvent {
 }
